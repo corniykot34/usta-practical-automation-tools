@@ -35,4 +35,4 @@ You can assign a keyboard shortcut via:
 
 ## Status
 
-Ready for field testing. The layer-printing logic is implemented; grouped-layer support can be added later if needed.
+Field-tested on a real multi-image print batch.
