@@ -59,4 +59,4 @@ Supported formats: JPG, JPEG, PNG, TIFF, PSD, BMP.
 
 ## Status
 
-**A4 layout tested on Photoshop CS6. Automatic orientation correction added and ready for field test.**
+**Tested on Photoshop CS6, including automatic orientation correction and final layout rotation.**
