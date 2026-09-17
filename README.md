@@ -12,7 +12,7 @@ The goal of this repository is simple: if a repetitive task can be reduced to a 
 |---|---|---|
 | [Print Folder](photoshop/print-folder/) | Places every image from a folder into the current Photoshop document and prints it using the current print settings. | Tested on Photoshop CS6 |
 | [Print All Layers](photoshop/print-all-layers/) | Prints top-level layers from the current Photoshop document one by one. | Tested on Photoshop CS6 |
-| [Place Layout 102×142](photoshop/place-layout-102x142/) | Places folder images at exactly 102 × 142 mm and cycles them through a 2 × 2 A4 layout. | Tested — known A4 edge overflow issue; not recommended as-is |
+| [Place Layout 102×142](photoshop/place-layout-102x142/) | Places folder images at exactly 102 × 142 mm and cycles them through a tested 2 × 2 A4 layout with 2.5 mm side margins and a 1 mm center gap. | Tested on Photoshop CS6 |
 | [Place Rotate Layout 142×202](photoshop/place-rotate-layout-142x202/) | Places folder images at 142 × 202 mm, rotates them 90°, and alternates between top and bottom positions on A4. | Tested on Photoshop CS6 |
 
 ### Photoshop layout workflow assumptions
