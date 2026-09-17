@@ -2,6 +2,14 @@
 
 Places every supported image from a selected folder into the active Photoshop document, resizes each placed Smart Object to exactly **142 × 202 mm**, rotates it **90°**, and alternates between two fixed positions.
 
+## Intended workflow
+
+Before running the script:
+
+- Create or open an **A4 document (210 × 297 mm)** in Photoshop for a standard desktop printer.
+- Prepare source artwork in the intended print proportion before placement. Typical source proportions are **2:3** or standard **ISO A-series** proportions such as A3, A4, A5, A6, and related sizes.
+- Use source files that are already composed correctly. This script handles placement, rotation, and physical sizing; it does not crop or intelligently recompose images.
+
 ## Layout
 
 After rotation, each image occupies 202 × 142 mm on the sheet.
@@ -16,12 +24,12 @@ The vertical spacing between the two positions is 2 mm. After the second image, 
 ## Requirements
 
 - Adobe Photoshop with ExtendScript / JSX support
-- Tested target environment: Photoshop CS6
-- An open target document
+- Tested environment: Photoshop CS6
+- Active A4 document, 210 × 297 mm
 
 ## Usage
 
-1. Open the target Photoshop document.
+1. Open the A4 target Photoshop document.
 2. Run `Place_Rotate_Layout_142x202.jsx`.
 3. Select the folder containing the images.
 4. The script places, resizes, rotates, names, and positions every supported image automatically.
@@ -37,4 +45,4 @@ Supported formats: JPG, JPEG, PNG, TIFF, PSD, BMP.
 
 ## Status
 
-Experimental / needs field test.
+Tested on Photoshop CS6.
