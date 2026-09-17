@@ -3,12 +3,12 @@
 app.displayDialogs = DialogModes.NO;
 
 if (app.documents.length === 0) {
-    alert("Open the target document first.");
+    alert("Open a document first.");
     throw new Error("No active document");
 }
 
 var doc = app.activeDocument;
-var folder = Folder.selectDialog("Choose folder with images");
+var folder = Folder.selectDialog("Select a folder with images");
 
 if (!folder) {
     throw new Error("Cancelled");
@@ -20,7 +20,7 @@ var files = folder.getFiles(function (f) {
 });
 
 if (files.length === 0) {
-    alert("No supported images found in the selected folder.");
+    alert("No supported image files were found in the selected folder.");
     throw new Error("No images");
 }
 
@@ -37,44 +37,66 @@ var oldUnits = app.preferences.rulerUnits;
 app.preferences.rulerUnits = Units.PIXELS;
 
 var resolution = doc.resolution;
-var imageWidthMM = 102;
-var imageHeightMM = 142;
 
+// Final image size
+var imageWmm = 102;
+var imageHmm = 142;
+
+// Layout positions for A4:
+// left margin = 2.5 mm
+// gap between columns = 1 mm
+// right margin = 2.5 mm
+// top margin = 4 mm
+// gap between rows = 2 mm
 var positions = [
-    { x: 4, y: 4 },
-    { x: 108, y: 4 },
-    { x: 4, y: 148 },
-    { x: 108, y: 148 }
+    {x: 2.5,   y: 4},
+    {x: 105.5, y: 4},
+    {x: 2.5,   y: 148},
+    {x: 105.5, y: 148}
 ];
 
-try {
-    for (var i = 0; i < files.length; i++) {
-        placeFile(files[i]);
+for (var i = 0; i < files.length; i++) {
 
-        var layer = doc.activeLayer;
-        layer.name = decodeURI(files[i].name).replace(/\.[^\.]+$/, "");
+    placeFile(files[i]);
 
-        resizeLayerMM(layer, imageWidthMM, imageHeightMM);
+    var layer = doc.activeLayer;
 
-        var position = positions[i % 4];
-        moveLayerToMM(layer, position.x, position.y);
-    }
+    layer.name = decodeURI(files[i].name).replace(/\.[^\.]+$/, "");
+
+    resizeLayerMM(layer, imageWmm, imageHmm);
+
+    var posIndex = i % 4;
+
+    moveLayerToMM(
+        layer,
+        positions[posIndex].x,
+        positions[posIndex].y
+    );
 }
-finally {
-    app.preferences.rulerUnits = oldUnits;
-}
+
+app.preferences.rulerUnits = oldUnits;
 
 alert(
     "Done.\n" +
-    "Images placed: " + files.length + "\n" +
-    "Size: 102 x 142 mm\n" +
-    "Layout cycle: top-left, top-right, bottom-left, bottom-right"
+    "Placed images: " + files.length +
+    "\nImage size: 102 × 142 mm\n" +
+    "Layout: 2 × 2"
 );
 
+
+// -------------------------
+// PLACE
+// -------------------------
+
 function placeFile(file) {
+
     var d = new ActionDescriptor();
 
-    d.putPath(charIDToTypeID("null"), file);
+    d.putPath(
+        charIDToTypeID("null"),
+        file
+    );
+
     d.putEnumerated(
         charIDToTypeID("FTcs"),
         charIDToTypeID("QCSt"),
@@ -82,34 +104,74 @@ function placeFile(file) {
     );
 
     var offset = new ActionDescriptor();
-    offset.putUnitDouble(charIDToTypeID("Hrzn"), charIDToTypeID("#Pxl"), 0);
-    offset.putUnitDouble(charIDToTypeID("Vrtc"), charIDToTypeID("#Pxl"), 0);
 
-    d.putObject(charIDToTypeID("Ofst"), charIDToTypeID("Ofst"), offset);
-    executeAction(charIDToTypeID("Plc "), d, DialogModes.NO);
+    offset.putUnitDouble(
+        charIDToTypeID("Hrzn"),
+        charIDToTypeID("#Pxl"),
+        0
+    );
+
+    offset.putUnitDouble(
+        charIDToTypeID("Vrtc"),
+        charIDToTypeID("#Pxl"),
+        0
+    );
+
+    d.putObject(
+        charIDToTypeID("Ofst"),
+        charIDToTypeID("Ofst"),
+        offset
+    );
+
+    executeAction(
+        charIDToTypeID("Plc "),
+        d,
+        DialogModes.NO
+    );
 }
+
+
+// -------------------------
+// RESIZE
+// -------------------------
 
 function resizeLayerMM(layer, widthMM, heightMM) {
-    var targetWidthPX = (widthMM / 25.4) * resolution;
-    var targetHeightPX = (heightMM / 25.4) * resolution;
 
-    var bounds = layer.bounds;
-    var currentWidth = bounds[2].as("px") - bounds[0].as("px");
-    var currentHeight = bounds[3].as("px") - bounds[1].as("px");
+    var widthPX  = (widthMM  / 25.4) * resolution;
+    var heightPX = (heightMM / 25.4) * resolution;
 
-    var scaleX = (targetWidthPX / currentWidth) * 100;
-    var scaleY = (targetHeightPX / currentHeight) * 100;
+    var b = layer.bounds;
 
-    layer.resize(scaleX, scaleY, AnchorPosition.MIDDLECENTER);
+    var currentW = b[2].as("px") - b[0].as("px");
+    var currentH = b[3].as("px") - b[1].as("px");
+
+    var scaleX = (widthPX  / currentW) * 100;
+    var scaleY = (heightPX / currentH) * 100;
+
+    layer.resize(
+        scaleX,
+        scaleY,
+        AnchorPosition.MIDDLECENTER
+    );
 }
 
+
+// -------------------------
+// MOVE
+// -------------------------
+
 function moveLayerToMM(layer, xMM, yMM) {
-    var targetXPX = (xMM / 25.4) * resolution;
-    var targetYPX = (yMM / 25.4) * resolution;
 
-    var bounds = layer.bounds;
-    var currentX = bounds[0].as("px");
-    var currentY = bounds[1].as("px");
+    var xPX = (xMM / 25.4) * resolution;
+    var yPX = (yMM / 25.4) * resolution;
 
-    layer.translate(targetXPX - currentX, targetYPX - currentY);
+    var b = layer.bounds;
+
+    var currentX = b[0].as("px");
+    var currentY = b[1].as("px");
+
+    layer.translate(
+        xPX - currentX,
+        yPX - currentY
+    );
 }
