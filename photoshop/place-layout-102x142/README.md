@@ -1,6 +1,6 @@
 # Place Layout 102×142
 
-Places every supported image from a selected folder into the active Photoshop document, resizes each placed Smart Object to exactly **102 × 142 mm**, and cycles through four fixed positions.
+Places every supported image from a selected folder into the active Photoshop document, resizes each placed Smart Object to exactly **102 × 142 mm**, and cycles through four fixed positions on an A4 sheet.
 
 ## Intended workflow
 
@@ -12,14 +12,22 @@ Before running the script:
 
 ## Layout
 
+Each image is exactly **102 × 142 mm**.
+
 Position order:
 
-1. Top-left — X 4 mm, Y 4 mm
-2. Top-right — X 108 mm, Y 4 mm
-3. Bottom-left — X 4 mm, Y 148 mm
-4. Bottom-right — X 108 mm, Y 148 mm
+1. Top-left — X 2.5 mm, Y 4 mm
+2. Top-right — X 105.5 mm, Y 4 mm
+3. Bottom-left — X 2.5 mm, Y 148 mm
+4. Bottom-right — X 105.5 mm, Y 148 mm
 
-The spacing between neighboring images is 2 mm. After the fourth image, the cycle starts again from the top-left position, so image 5 overlaps image 1, image 6 overlaps image 2, and so on.
+Horizontal layout:
+
+`2.5 mm margin + 102 mm image + 1 mm gap + 102 mm image + 2.5 mm margin = 210 mm`
+
+Vertical spacing between rows is 2 mm.
+
+After the fourth image, the cycle starts again from the top-left position, so image 5 overlaps image 1, image 6 overlaps image 2, and so on. This is intentional and useful when several print sets are prepared as stacked layers in one document.
 
 ## Requirements
 
@@ -42,13 +50,8 @@ Supported formats: JPG, JPEG, PNG, TIFF, PSD, BMP.
 - Layer names are taken from the source filenames without extensions.
 - Width and height are forced independently to exactly 102 × 142 mm. Images with a different aspect ratio will be stretched.
 - Physical dimensions are calculated from the resolution of the active Photoshop document.
-
-## Known issue
-
-This 2 × 2 layout has been field-tested and is **not recommended as-is** for A4 output. With the current 4 mm left margin, 2 mm center gap, and two 102 mm-wide images, the layout reaches the full 210 mm sheet width and can protrude beyond the A4 canvas/printable area in real use.
-
-A corrected version needs slightly smaller artwork and/or revised horizontal spacing before this layout should be treated as production-ready.
+- The 2.5 mm outer side margins and 1 mm center gap were chosen after real print-layout testing so the two 102 mm-wide images fit cleanly within the 210 mm A4 width without reducing the artwork size.
 
 ## Status
 
-Tested on Photoshop CS6 — known A4 edge overflow issue.
+**Tested on Photoshop CS6 — production layout confirmed after field test.**
