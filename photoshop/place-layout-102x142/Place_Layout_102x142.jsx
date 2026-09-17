@@ -55,32 +55,37 @@ var positions = [
     {x: 105.5, y: 148}
 ];
 
-for (var i = 0; i < files.length; i++) {
+try {
+    for (var i = 0; i < files.length; i++) {
+        placeFile(files[i]);
 
-    placeFile(files[i]);
+        var layer = doc.activeLayer;
+        layer.name = decodeURI(files[i].name).replace(/\.[^\.]+$/, "");
 
-    var layer = doc.activeLayer;
+        // Normalize sideways source files before applying the exact print size.
+        ensurePortraitOrientation(layer);
 
-    layer.name = decodeURI(files[i].name).replace(/\.[^\.]+$/, "");
+        resizeLayerMM(layer, imageWmm, imageHmm);
 
-    resizeLayerMM(layer, imageWmm, imageHmm);
+        var posIndex = i % 4;
 
-    var posIndex = i % 4;
-
-    moveLayerToMM(
-        layer,
-        positions[posIndex].x,
-        positions[posIndex].y
-    );
+        moveLayerToMM(
+            layer,
+            positions[posIndex].x,
+            positions[posIndex].y
+        );
+    }
 }
-
-app.preferences.rulerUnits = oldUnits;
+finally {
+    app.preferences.rulerUnits = oldUnits;
+}
 
 alert(
     "Done.\n" +
     "Placed images: " + files.length +
-    "\nImage size: 102 × 142 mm\n" +
-    "Layout: 2 × 2"
+    "\nImage size: 102 x 142 mm\n" +
+    "Layout: 2 x 2\n" +
+    "Landscape source files were rotated automatically."
 );
 
 
@@ -128,6 +133,26 @@ function placeFile(file) {
         d,
         DialogModes.NO
     );
+}
+
+
+// -------------------------
+// ORIENTATION
+// -------------------------
+
+function ensurePortraitOrientation(layer) {
+
+    var b = layer.bounds;
+
+    var currentW = b[2].as("px") - b[0].as("px");
+    var currentH = b[3].as("px") - b[1].as("px");
+
+    if (currentW > currentH) {
+        layer.rotate(
+            90,
+            AnchorPosition.MIDDLECENTER
+        );
+    }
 }
 
 
