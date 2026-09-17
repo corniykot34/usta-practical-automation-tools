@@ -2,6 +2,14 @@
 
 Places every supported image from a selected folder into the active Photoshop document, resizes each placed Smart Object to exactly **102 × 142 mm**, and cycles through four fixed positions.
 
+## Intended workflow
+
+Before running the script:
+
+- Create or open an **A4 document (210 × 297 mm)** in Photoshop for a standard desktop printer.
+- Prepare source artwork in the intended print proportion before placement. Typical source proportions are **2:3** or standard **ISO A-series** proportions such as A3, A4, A5, A6, and related sizes.
+- Use source files that are already composed correctly. This script handles placement and physical sizing; it does not crop or intelligently recompose images.
+
 ## Layout
 
 Position order:
@@ -16,12 +24,12 @@ The spacing between neighboring images is 2 mm. After the fourth image, the cycl
 ## Requirements
 
 - Adobe Photoshop with ExtendScript / JSX support
-- Tested target environment: Photoshop CS6
-- An open target document
+- Tested environment: Photoshop CS6
+- Active A4 document, 210 × 297 mm
 
 ## Usage
 
-1. Open the target Photoshop document.
+1. Open the A4 target Photoshop document.
 2. Run `Place_Layout_102x142.jsx`.
 3. Select the folder containing the images.
 4. The script places, resizes, names, and positions every supported image automatically.
@@ -35,6 +43,12 @@ Supported formats: JPG, JPEG, PNG, TIFF, PSD, BMP.
 - Width and height are forced independently to exactly 102 × 142 mm. Images with a different aspect ratio will be stretched.
 - Physical dimensions are calculated from the resolution of the active Photoshop document.
 
+## Known issue
+
+This 2 × 2 layout has been field-tested and is **not recommended as-is** for A4 output. With the current 4 mm left margin, 2 mm center gap, and two 102 mm-wide images, the layout reaches the full 210 mm sheet width and can protrude beyond the A4 canvas/printable area in real use.
+
+A corrected version needs slightly smaller artwork and/or revised horizontal spacing before this layout should be treated as production-ready.
+
 ## Status
 
-Experimental / needs field test.
+Tested on Photoshop CS6 — known A4 edge overflow issue.
