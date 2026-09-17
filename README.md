@@ -12,8 +12,9 @@ The goal of this repository is simple: if a repetitive task can be reduced to a 
 |---|---|---|
 | [Print Folder](photoshop/print-folder/) | Places every image from a folder into the current Photoshop document and prints it using the current print settings. | Tested on Photoshop CS6 |
 | [Print All Layers](photoshop/print-all-layers/) | Prints top-level layers from the current Photoshop document one by one. | Tested on Photoshop CS6 |
-| [Place Layout 102×142](photoshop/place-layout-102x142/) | Normalizes sideways source orientation when needed, places images at exactly 102 × 142 mm, and cycles them through a tested 2 × 2 A4 layout with 2.5 mm side margins and a 1 mm center gap. | A4 layout tested; auto-orientation update ready for field test |
-| [Place Rotate Layout 142×202](photoshop/place-rotate-layout-142x202/) | Normalizes sideways source orientation when needed, sizes images to 142 × 202 mm, applies the required 90° layout rotation, and alternates between top and bottom positions on A4. | A4 layout tested; auto-orientation update ready for field test |
+| [Place Layout 102×142](photoshop/place-layout-102x142/) | Normalizes sideways source orientation when needed, places images at exactly 102 × 142 mm, and cycles them through a tested 2 × 2 A4 layout with 2.5 mm side margins and a 1 mm center gap. | Tested on Photoshop CS6 |
+| [Place Rotate Layout 142×202](photoshop/place-rotate-layout-142x202/) | Normalizes sideways source orientation when needed, sizes images to 142 × 202 mm, applies the required 90° layout rotation, and alternates between top and bottom positions on A4. | Tested on Photoshop CS6 |
+| [Place Layout A4 Portrait](photoshop/place-layout-a4-portrait/) | Normalizes sideways source orientation when needed, resizes each image to full A4 portrait size (210 × 297 mm), and stacks imported files as aligned layers. | Tested on Photoshop CS6 |
 
 ### Photoshop layout workflow assumptions
 
